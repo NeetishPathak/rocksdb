@@ -134,6 +134,6 @@ extern RateLimiter* NewGenericRateLimiter(
     int64_t rate_bytes_per_sec, int64_t refill_period_us = 100 * 1000,
     int32_t fairness = 10,
     RateLimiter::Mode mode = RateLimiter::Mode::kWritesOnly,
-    bool auto_tuned = false);
+    bool auto_tuned = true);
 
 }  // namespace rocksdb
