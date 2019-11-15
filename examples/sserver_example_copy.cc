@@ -6,6 +6,7 @@
 
 #include <cstdio>
 #include <string>
+#include <iostream>
 
 #include "rocksdb/db.h"
 
@@ -63,5 +64,21 @@ int main(){
   std::string value;
   s = db->Get(ReadOptions(),"k1",&value);
   assert(s.ok());
+
+  //atomically applying a set of updates
+  {
+    WriteBatch batch;
+    batch.Delete("k1");
+    batch.Put("k2",value);
+    s = db->Write(WriteOptions(),&batch);
+  }
+
+  std::string value2;
+  s = db->Get(ReadOptions(),"k2", &value2);
+  assert(s.ok());
+
+  if (value == value2){
+    std::cout << "This is true" << std::endl;
+  }
 
 }
